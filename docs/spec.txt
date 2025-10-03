@@ -1,0 +1,58 @@
+AI-Powered Health Risk Profiler
+
+Focus Area: OCR -> Factor Extraction -> Risk and Recommendations
+
+Problem Statement:
+Develop a service that analyzes lifestyle survey responses (typed or scanned forms) and generates a structured health risk profile. The intern must handle noisy inputs, missing answers, and provide guardrails for incomplete data. Output must include factors, risk level, and actionable recommendations.
+
+Step 1 - OCR/Text Parsing
+Ingest survey form (text/image) and parse key fields.
+Input (text):
+{"age":42,"smoker":true,"exercise":"rarely","diet":"high sugar"}
+
+Input (image -> OCR sample):
+Age: 42
+Smoker: yes
+Exercise: rarely
+Diet: high sugar
+
+Expected Output (JSON):
+{
+ "answers":{"age":42,"smoker":true,"exercise":"rarely","diet":"high sugar"},
+ "missing_fields": [],
+ "confidence": 0.92
+}
+
+Guardrail / Exit Condition (JSON):
+{"status":"incomplete_profile","reason":">50% fields missing"}
+
+Step 2 - Factor Extraction
+Convert answers into risk factors.
+
+
+Expected Output (JSON):
+{
+ "factors": ["smoking", "poor diet", "low exercise"],
+ "confidence": 0.88
+}
+
+Step 3 - Risk Classification
+Compute risk level with simple scoring logic (non-diagnostic).
+Expected Output (JSON):
+{
+ "risk_level": "high",
+ "score": 78,
+ "rationale": ["smoking", "high sugar diet", "low activity"]
+}
+
+Step 4 - Recommendations
+Generate actionable, non-diagnostic guidance.
+Expected Output (JSON):
+{
+ "risk_level": "high",
+ "factors": ["smoking","poor diet","low exercise"],
+ "recommendations": ["Quit smoking","Reduce sugar","Walk 30 mins daily"],
+ "status":"ok"
+}
+
+Make it in the latest nextjs version and provide a zip folder for all the file and make it in nextjs frontend and backend.
