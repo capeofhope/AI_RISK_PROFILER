@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
+import { Upload, ScanLine } from 'lucide-react';
+
 
 type Props = {
   onExtract: (text: string) => void
@@ -38,17 +40,27 @@ export function OCRUploader({ onExtract }: Props) {
   }
 
   return (
-    <Card>
+  <Card>
       <CardHeader>
         <CardTitle>Image OCR</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+  <CardContent className="space-y-6">
         <div className="grid gap-2">
           <Label htmlFor="ocr-file">Upload scanned form (PNG/JPG)</Label>
-          <input id="ocr-file" type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+          <div className="flex items-center gap-2">
+            <Button asChild variant="outline">
+              <label htmlFor="ocr-file" className="cursor-pointer">
+                <Upload className="mr-2 h-4 w-4" />
+                Select File
+              </label>
+            </Button>
+            <input id="ocr-file" type="file" className="hidden" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+            {file && <span className="text-sm text-muted-foreground">{file.name}</span>}
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Button onClick={handleOCR} disabled={!file}>
+            <ScanLine className="mr-2 h-4 w-4" />
             Run OCR
           </Button>
           <div className="text-sm text-muted-foreground">{status}</div>

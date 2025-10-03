@@ -4,6 +4,8 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import type { FullProfile } from "@/lib/types"
+import { FileText, ClipboardList, Lightbulb } from 'lucide-react';
+
 
 export function ResultsCard({ profile }: { profile: FullProfile }) {
   const level = profile.risk?.risk_level
@@ -12,21 +14,21 @@ export function ResultsCard({ profile }: { profile: FullProfile }) {
     level === "high"
       ? "bg-red-600 text-white"
       : level === "moderate"
-        ? "bg-amber-500 text-black"
-        : "bg-emerald-500 text-black"
+        ? "bg-yellow-500 text-black"
+        : "bg-green-500 text-black"
 
   const factors = profile.factors?.factors || []
   const recs = profile.recommendation?.recommendations || []
 
   return (
-    <Card className="p-4 md:p-6 space-y-4">
+  <Card className="p-4 md:p-6 space-y-6 border-2 border-primary/40 shadow-lg shadow-primary/20">
       <div className="flex items-center justify-between">
         <div className="text-pretty">
-          <h3 className="text-xl font-semibold text-balance">Personalized Risk Assessment</h3>
+          <h3 className="text-xl font-semibold text-balance text-primary">Personalized Risk Assessment</h3>
           <p className="text-sm text-muted-foreground">Generated {new Date(profile.createdAt).toLocaleString()}</p>
         </div>
         {level ? (
-          <span className={`px-3 py-1 rounded-full text-sm ${riskColor}`} aria-label={`Risk level ${level}`}>
+          <span className={`px-3 py-1 rounded-full text-sm font-bold ${riskColor}`} aria-label={`Risk level ${level}`}>
             {level.toUpperCase()} • {score ?? ""}
           </span>
         ) : null}
@@ -44,7 +46,7 @@ export function ResultsCard({ profile }: { profile: FullProfile }) {
       <Separator />
 
       <div className="space-y-2">
-        <h4 className="font-medium">Recommendations</h4>
+        <h4 className="font-medium flex items-center"><ClipboardList className="mr-2 h-5 w-5" />Recommendations</h4>
         <ul className="list-disc pl-5 space-y-1">
           {recs.map((r, i) => (
             <li key={i}>{r}</li>
@@ -54,8 +56,8 @@ export function ResultsCard({ profile }: { profile: FullProfile }) {
       </div>
 
       {profile.aiNotes ? (
-        <div className="rounded-md border p-3 bg-muted/40">
-          <p className="text-sm">{profile.aiNotes}</p>
+        <div className="rounded-md border-2 border-primary/20 p-3 bg-muted/40">
+          <p className="text-sm flex items-start"><Lightbulb className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />{profile.aiNotes}</p>
         </div>
       ) : null}
 
